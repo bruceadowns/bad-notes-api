@@ -131,3 +131,59 @@ To add environment variables to your project
 ### Maintainers
 
 Serverless Node.js Starter is maintained by Frank Wang ([@fanjiewang](https://twitter.com/fanjiewang)) & Jay V ([@jayair](https://twitter.com/jayair)). [**Subscribe to our newsletter**](http://eepurl.com/cEaBlf) for updates. Send us an [email](mailto:contact@anoma.ly) if you have any questions.
+
+### Dev
+
+```
+export UserPoolClientId=6kmqadvtds5dka3cbo2ep74dnp
+export UserPoolId=us-west-2_xLUyzCXEH
+export IdentityPoolId=us-west-2:8269503e-4ad8-4b5e-99dc-3817ff41e02e
+export apiUrl=https://hp8rvgiif7.execute-api.us-west-2.amazonaws.com/dev
+aws cognito-idp sign-up \
+  --region us-west-2 \
+  --client-id $UserPoolClientId \
+  --username admin@example.com \
+  --password Passw0rd!
+aws cognito-idp admin-confirm-sign-up \
+    --region us-west-2 \
+    --user-pool-id $UserPoolId \
+    --username admin@example.com
+npx aws-api-gateway-cli-test \
+    --username='admin@example.com' \
+    --password='Passw0rd!' \
+    --user-pool-id=$UserPoolId \
+    --app-client-id=$UserPoolClientId \
+    --cognito-region='us-west-2' \
+    --identity-pool-id=$IdentityPoolId \
+    --invoke-url=$apiUrl \
+    --api-gateway-region='us-west-2' \
+    --path-template='/notes' \
+    --method='POST' \
+    --body='{"content":"hello world","attachment":"hello.jpg"}'
+
+export UserPoolClientId=44kkdrc4mvd57is5fclepbcken
+export UserPoolId=us-west-2_ZgE2TeijA
+export IdentityPoolId=us-west-2:b7637721-a4da-4566-b90d-41d3a7383b54
+export apiUrl=https://1b0r82ebog.execute-api.us-west-2.amazonaws.com/prod
+aws cognito-idp sign-up \
+  --region us-west-2 \
+  --client-id $UserPoolClientId \
+  --username admin@example.com \
+  --password Passw0rd!
+aws cognito-idp admin-confirm-sign-up \
+    --region us-west-2 \
+    --user-pool-id $UserPoolId \
+    --username admin@example.com
+npx aws-api-gateway-cli-test \
+    --username='admin@example.com' \
+    --password='Passw0rd!' \
+    --user-pool-id=$UserPoolId \
+    --app-client-id=$UserPoolClientId \
+    --cognito-region='us-west-2' \
+    --identity-pool-id=$IdentityPoolId \
+    --invoke-url=$apiUrl \
+    --api-gateway-region='us-west-2' \
+    --path-template='/notes' \
+    --method='POST' \
+    --body='{"content":"hello world","attachment":"hello.jpg"}'
+```
